@@ -115,7 +115,7 @@ Let's imagine you have a class called `BeerActor` and a function called `DrinkBe
     #include "BeerActor.generated.h"
 
     UCLASS()
-    class LOYLY_API ABeerActor : public AActor
+    class {ProjectName}_API ABeerActor : public AActor
     {
 	    GENERATED_BODY()
 	
