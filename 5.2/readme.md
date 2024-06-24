@@ -226,18 +226,18 @@ void BeerActorDrinkBeerSpec::Define()
 	{
 		BeforeEach([this]()
 		{
-            // Make use of our fixture
+			// Make use of our fixture
 			WorldFixture = MakeUnique<FWorldFixture>();
 
-            // Spawn our beer actor
+			// Spawn our beer actor
 			Actor = WorldFixture->GetWorld()->SpawnActor<ABeerActor>();
 
-            // Spawn other stuff needed for this example. It might be different for you!
+			// Spawn other stuff needed for this example. It might be different for you!
 			Controller = WorldFixture->GetWorld()->SpawnActor<AMainPlayerController>();
 			Character = WorldFixture->GetWorld()->SpawnActor<AMainCharacter>();
 			PlayerState = NewObject<AMainPlayerState>();
 			
-            // Set up the player state, Controller, character, etc.
+			// Set up the player state, Controller, character, etc.
 			WorldFixture->GetWorld()->AddController(Controller);
 			Character->SetPlayerState(PlayerState);
 			Controller->Possess(Character);
