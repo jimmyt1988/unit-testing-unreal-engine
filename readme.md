@@ -12,7 +12,7 @@ It makes an assumption that you have:
 
 ## With UE5, you can
 1. Unit test C++ code.
-1. Use an out of the box Inversion of Control (IOC) container.
+1. Use an out of the box [Inversion of Control (IOC)](https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Runtime/Core/Misc/TTypeContainer) container called `TTypeContainer`. An example can be [found here](https://github.com/jimmyt1988/UE-Testing).
 1. Make use of Visual Studio 2022's Test Explorer.
 1. Run a CLI version of Unreal Engine to run the tests.
 1. See unit tests within Unreal Engine's editor. (Front End Session).
