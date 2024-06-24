@@ -204,13 +204,19 @@ void ABeerActor::DrinkBeer_Implementation()
 #include "Misc/AutomationTest.h"
 #include "Tests/Fixtures/WorldFixture.h"
 
+// BeerActorDrinkBeerSpec: A name for the class. It's used for the Define method
+// "{ProjectName}.Actors.BeerActor.DrinkBeerSpec": A name for the spec. Dots "." are used in Unreal Engine Editor to organise tests.
+// EAutomationTestFlags::ApplicationContextMask: This flag does something... <shrugs>
+// EAutomationTestFlags::ProductFilter: This flag is used to categorise your test in the Unreal Engine Editor.
 BEGIN_DEFINE_SPEC(BeerActorDrinkBeerSpec, "{ProjectName}.Actors.BeerActor.DrinkBeerSpec", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
+// Within this block, you can define variables that you use across your "It" tests
 TUniquePtr<FWorldFixture> WorldFixture;
 ABeerActor* Actor;
 AMainPlayerController* Controller;
 AMainCharacter* Character;
 AMainPlayerState* PlayerState;
+// ---
 
 END_DEFINE_SPEC(BeerActorDrinkBeerSpec)
 
@@ -220,13 +226,18 @@ void BeerActorDrinkBeerSpec::Define()
 	{
 		BeforeEach([this]()
 		{
+            // Make use of our fixture
 			WorldFixture = MakeUnique<FWorldFixture>();
 
+            // Spawn our beer actor
 			Actor = WorldFixture->GetWorld()->SpawnActor<ABeerActor>();
+
+            // Spawn other stuff needed for this example. It might be different for you!
 			Controller = WorldFixture->GetWorld()->SpawnActor<AMainPlayerController>();
 			Character = WorldFixture->GetWorld()->SpawnActor<AMainCharacter>();
 			PlayerState = NewObject<AMainPlayerState>();
 			
+            // Set up the player state, Controller, character, etc.
 			WorldFixture->GetWorld()->AddController(Controller);
 			Character->SetPlayerState(PlayerState);
 			Controller->Possess(Character);
@@ -264,7 +275,7 @@ Now it's time to Act with the `// Act` section. This is where you call the metho
 
 ### Assert
 
-Here, you can use the [https://docs.unrealengine.com/4.26/en-US/API/Runtime/Core/Misc/FAutomationTestBase/}(following methods) to make assertions about the results:
+Here, you can use the [following methods](https://docs.unrealengine.com/4.26/en-US/API/Runtime/Core/Misc/FAutomationTestBase/) to make assertions about the results:
 
 - TestEqual
 - TestEqualInsensitive
@@ -315,6 +326,14 @@ In this case, we are using `TestEqual` to check if the temperature has decreased
         }
     }
     ```
+
+For what it's worth, here's an explanation of the command.
+
+- `execcmds="Automation RunTests Loyly;Quit"`: This tells the Unreal Engine command-line editor to run automation tests that match the "Loyly" filter, and then quit the editor once the tests have been completed. It does not require an additional specification for EAutomationTestFlags::EditorContext because the test itself defines the context (and other flags) necessary for execution.
+- `stdout`: Forces the engine to output logs to the standard output, which can be very useful for CI systems to capture and analyze the output directly.
+- `unattended`: Runs the engine in a mode that does not require user interaction, suitable for automated tasks like continuous integration.
+- `NOSPLASH`: Disables the splash screen on startup, which is generally preferred for automated tasks to reduce overhead and potential graphical issues.
+- `NullRHI`: This is a crucial flag for running tests in environments without a dedicated GPU or where you do not want to initialize the full rendering hardware interface. It makes the tests run with a null renderer, which can prevent rendering-related operations but allows most other engine functionality to be tested.
 
 ### Running tests using Visual Studio
 
