@@ -305,13 +305,13 @@ In this case, we are using `TestEqual` to check if the temperature has decreased
 
 ## Running tests using command line (CLI)
 
-1. Open a command prompt and type this in, modifying the command tokens to match your requirements. For example, {Username}, {ProjectName} and {TestName}. {TestName} can be used as a sort of search, for the tests you want to run.
+1. Open a command prompt and type this in, modifying the command tokens to match your requirements. For example, `{Username}`, `{ProjectName}` and `{TestName}`. `{TestName}` can be used as a sort of search, for the tests you want to run.
 
     ```cmd
     "C:\Program Files\Epic Games\UE_5.2\Engine\Binaries\Win64\UnrealEditor-Cmd.exe" "C:\Users\{Username}\Unreal Projects\{ProjectName}\{ProjectName}.uproject" -execcmds="Automation RunTests {TestName};Quit" -stdout -unattended -NOSPLASH -NullRHI
     ```
 
-1. 1. Now hit run, and you should see the tests run in the command prompt.
+1. Now hit run, and you should see the tests run in the command prompt.
 1. If you want to see colours for errors, try using PowerShell instead and running the following:
 
     ```powershell
