@@ -248,23 +248,35 @@ void BeerActorDrinkBeerSpec::Define()
 }
 ```
 
-You can see here the "DrinkBeer" Describe block groups tests ("It should") together. In this case, for this single method under the `BeerActor` class.
+You can see here the `DrinkBeer` Describe block groups tests (`It`) together. In this case, for this single method under the `BeerActor` class.
 
-The BeforeEach runs before every It method is called. This is where we set up the world, the actors, player states, etc.
+The `BeforeEach` runs before every `It` method is called. This is where we set up the world, the actors, player states, etc.
 
-The It respresents each test you want to perform on that method. Inside that It lamdba, you can define an `// Arrange` section.
+The `It` respresents each test you want to perform on that method. Inside that `It` lamdba (`[](){...}`), you can define an `// Arrange` section.
 
 ### Arrange
 
-Be very specific. What are the explicit requirements of your test? Make it obvious. The clearer it is, the less confusing it will be when returning back to it.
+Be very specific. What are the explicit requirements of your test? Make it obvious. The clearer it is, the less confusing it will be when returning back to it. If something doesn't need specific wording, use the string `test`. If something doesn't need a specific number, use something obvious like `123`, etc. Be as clear as possible and as directly related to the unit test as possible.
 
 ### Act
 
-Now it's time to Act with the `// Act` section. This is where you call the method you want to test, with all the parts you set up in the `// Arrange` section.
+Now it's time to Act with the `// Act` section. This is where you call the method you want to test, with all the parts you set up in the `// Arrange` section. In the above example, we call `Actor->DrinkBeer()`
 
 ### Assert
 
-Here, you can use the following methods to make assertions about the results.
+Here, you can use the [https://docs.unrealengine.com/4.26/en-US/API/Runtime/Core/Misc/FAutomationTestBase/}(following methods) to make assertions about the results:
+
+- TestEqual
+- TestEqualInsensitive
+- TestFalse
+- TestInvalid
+- TestNotEqual
+- TestNotNull
+- TestNotSame
+- TestNull
+- TestSame
+- TestTrue
+- TestValid
 
 In this case, we are using `TestEqual` to check if the temperature has decreased by the expected amount.
 
