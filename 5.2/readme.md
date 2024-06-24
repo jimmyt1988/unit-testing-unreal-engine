@@ -89,7 +89,7 @@ Follow this guide sequentially.
     };
 	```
 
-# 2. Create a folder for your Tests
+# 3. Create a folder for your Tests
 
 First - A cautionary tale: Creating a file that holds all of the tests for a certain class leads to monolithic files. Therefore:
 
@@ -97,7 +97,7 @@ First - A cautionary tale: Creating a file that holds all of the tests for a cer
 
     `{ProjectName}/Source/{ProjectName}/Private/Tests/Actors/BeerActor/BeerActor_DrinkBeer.spec.cpp`
 
-# Writing your first test
+# 4. Writing your first test
 
 ## The implentation
 
@@ -267,6 +267,48 @@ Now it's time to Act with the `// Act` section. This is where you call the metho
 Here, you can use the following methods to make assertions about the results.
 
 In this case, we are using `TestEqual` to check if the temperature has decreased by the expected amount.
+
+# 5. Running your tests
+
+## Running tests in Unreal Engine
+
+1. Compile and run your project so that Unreal Engine Editor is running.
+1. Visit `Tools/Session Frontend` in the Unreal Engine Editor.
+1. Click `Automation`
+1. Click on the dropdown that says `Standard Tests` and choose `Product Tests`. (This was defined by this `EAutomationTestFlags::ProductFilter` flag). 
+1. Find your test and select the checkbox to mark for running.
+1. Click "Start Tests"
+1. You can debug at this point by returning to your Visual Studio editor and setting breakpoints inside your test. Just note that optimizations may need to be turned off.
+
+## Running tests using command line (CLI)
+
+1. Open a command prompt and type this in, modifying the command tokens to match your requirements. For example, {Username}, {ProjectName} and {TestName}. {TestName} can be used as a sort of search, for the tests you want to run.
+
+    ```cmd
+    "C:\Program Files\Epic Games\UE_5.2\Engine\Binaries\Win64\UnrealEditor-Cmd.exe" "C:\Users\{Username}\Unreal Projects\{ProjectName}\{ProjectName}.uproject" -execcmds="Automation RunTests {TestName};Quit" -stdout -unattended -NOSPLASH -NullRHI
+    ```
+
+1. 1. Now hit run, and you should see the tests run in the command prompt.
+1. If you want to see colours for errors, try using PowerShell instead and running the following:
+
+    ```powershell
+    $command = "& 'C:\Program Files\Epic Games\UE_5.2\Engine\Binaries\Win64\UnrealEditor-Cmd.exe' 'C:\Users\{Username}\Unreal Projects\{ProjectName}\{ProjectName}.uproject' -execcmds='Automation RunTests {TestName};Quit' -stdout -unattended -NOSPLASH -NullRHI"
+    Invoke-Expression $command | ForEach-Object {
+        if ($_ -match "Error") {
+            Write-Host $_ -ForegroundColor Red
+        } elseif ($_ -match "Success") {
+            Write-Host $_ -ForegroundColor Green
+        } else {
+            Write-Host $_ -ForegroundColor White
+        }
+    }
+    ```
+
+### Running tests using Visual Studio
+
+1. Visit `Test/Test Explorer` in Visual Studio.
+1. Note that, as long as you configured your Visual Studio correctly, you should see your tests here.
+1. You can filter using the search bar. There is a lot of built in tests here so it may be useful to filter by your project name.
 
 # References
 
