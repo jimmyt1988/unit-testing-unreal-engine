@@ -93,7 +93,7 @@ Follow this guide sequentially.
 
 First - A cautionary tale: Creating a file that holds all of the tests for a certain class leads to monolithic files. Therefore:
 
-1. Create the following file in this folder structure whereby `Actors` defines a grouping for actors, `BeerActor` is the name of the class, `DrinkBeer` is the name of the function being tested and the `BeerActor_` part prevents namespace issues (EXPLAIN ON A SIDE PAGE):
+1. Create the following file in this folder structure whereby `Actors` defines a grouping for actors, `BeerActor` is the name of the class, `DrinkBeer` is the name of the function being tested and the `BeerActor_` part prevents namespace issues:
 
     `{ProjectName}/Source/{ProjectName}/Private/Tests/Actors/BeerActor/BeerActor_DrinkBeer.spec.cpp`
 
@@ -105,148 +105,148 @@ Let's imagine you have a class called `BeerActor` and a function called `DrinkBe
 
 `{ProjectName}/Source/{ProjectName}/Public/Actors/BeerActor.h`
 
-    ```cpp
-    // Fill out your copyright notice in the Description page of Project Settings.
+```cpp
+// Fill out your copyright notice in the Description page of Project Settings.
 
-    #pragma once
+#pragma once
 
-    #include "CoreMinimal.h"
-    #include "GameFramework/Actor.h"
-    #include "BeerActor.generated.h"
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+#include "BeerActor.generated.h"
 
-    UCLASS()
-    class {ProjectName}_API ABeerActor : public AActor
-    {
-	    GENERATED_BODY()
+UCLASS()
+class {ProjectName}_API ABeerActor : public AActor
+{
+	GENERATED_BODY()
 	
-    public:	
-	    // Sets default values for this actor's properties
-	    ABeerActor();
+public:	
+	// Sets default values for this actor's properties
+	ABeerActor();
 
-    protected:
-	    // Called when the game starts or when spawned
-	    virtual void BeginPlay() override;
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 
-    public:	
-	    // Called every frame
-	    virtual void Tick(float DeltaTime) override;
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
-	    UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly, Category = "Custom")
-	    float DecreaseTemperatureBy;
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly, Category = "Custom")
+	float DecreaseTemperatureBy;
 
-	    UFUNCTION(BlueprintNativeEvent, Category = "Custom")
-	    void DrinkBeer();
-    };
-    ```
+	UFUNCTION(BlueprintNativeEvent, Category = "Custom")
+	void DrinkBeer();
+};
+```
 
 `{ProjectName}/Source/{ProjectName}/Private/Actors/BeerActor.cpp`
 
-    ```cpp
-    // Fill out your copyright notice in the Description page of Project Settings.
+```cpp
+// Fill out your copyright notice in the Description page of Project Settings.
 
 
-    #include "Actors/BeerActor.h"
-    #include "Controllers/MainPlayerController.h"
-    #include "Characters/MainCharacter.h"
+#include "Actors/BeerActor.h"
+#include "Controllers/MainPlayerController.h"
+#include "Characters/MainCharacter.h"
 
-    // Sets default values
-    ABeerActor::ABeerActor()
-    {
-	    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	    PrimaryActorTick.bCanEverTick = true;
+// Sets default values
+ABeerActor::ABeerActor()
+{
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
 
-    }
+}
 
-    // Called when the game starts or when spawned
-    void ABeerActor::BeginPlay()
-    {
-	    Super::BeginPlay();
+// Called when the game starts or when spawned
+void ABeerActor::BeginPlay()
+{
+	Super::BeginPlay();
 
-    }
+}
 
-    // Called every frame
-    void ABeerActor::Tick(float DeltaTime)
-    {
-	    Super::Tick(DeltaTime);
+// Called every frame
+void ABeerActor::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 
-    }
+}
 
-    void ABeerActor::DrinkBeer_Implementation()
-    {
-	    UWorld* World = GetWorld();
+void ABeerActor::DrinkBeer_Implementation()
+{
+	UWorld* World = GetWorld();
 
-	    if (World) {
-		    AMainPlayerController* Controller = World->GetFirstPlayerController<AMainPlayerController>();
+	if (World) {
+		AMainPlayerController* Controller = World->GetFirstPlayerController<AMainPlayerController>();
 
-		    if (Controller)
-		    {
-			    AMainCharacter* Character = Cast<AMainCharacter>(Controller->GetCharacter());
+		if (Controller)
+		{
+			AMainCharacter* Character = Cast<AMainCharacter>(Controller->GetCharacter());
 
-			    if (Character)
-			    {
-				    Character->DecreaseTemperature(DecreaseTemperatureBy);
-			    }
-		    }
-	    }
-    }
-    ```
+			if (Character)
+			{
+				Character->DecreaseTemperature(DecreaseTemperatureBy);
+			}
+		}
+	}
+}
+```
 
 ## The test
 
 `{ProjectName}/Source/{ProjectName}/Private/Tests/Actors/BeerActor/BeerActor_DrinkBeer.spec.cpp`
 
-    ```
-    #include "CoreMinimal.h"
-    #include "Actors/BeerActor.h"
-    #include "Characters/MainCharacter.h"
-    #include "Controllers/MainPlayerController.h"
-    #include "PlayerStates/MainPlayerState.h"
-    #include "Misc/AutomationTest.h"
-    #include "Tests/Fixtures/WorldFixture.h"
+```cpp
+#include "CoreMinimal.h"
+#include "Actors/BeerActor.h"
+#include "Characters/MainCharacter.h"
+#include "Controllers/MainPlayerController.h"
+#include "PlayerStates/MainPlayerState.h"
+#include "Misc/AutomationTest.h"
+#include "Tests/Fixtures/WorldFixture.h"
 
-    BEGIN_DEFINE_SPEC(BeerActorDrinkBeerSpec, "{ProjectName}.Actors.BeerActor.DrinkBeerSpec", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
+BEGIN_DEFINE_SPEC(BeerActorDrinkBeerSpec, "{ProjectName}.Actors.BeerActor.DrinkBeerSpec", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::ProductFilter)
 
-    TUniquePtr<FWorldFixture> WorldFixture;
-    ABeerActor* Actor;
-    AMainPlayerController* Controller;
-    AMainCharacter* Character;
-    AMainPlayerState* PlayerState;
+TUniquePtr<FWorldFixture> WorldFixture;
+ABeerActor* Actor;
+AMainPlayerController* Controller;
+AMainCharacter* Character;
+AMainPlayerState* PlayerState;
 
-    END_DEFINE_SPEC(BeerActorDrinkBeerSpec)
+END_DEFINE_SPEC(BeerActorDrinkBeerSpec)
 
-    void BeerActorDrinkBeerSpec::Define()
-    {
-	    Describe("DrinkBeer", [this]()
-	    {
-		    BeforeEach([this]()
-		    {
-			    WorldFixture = MakeUnique<FWorldFixture>();
+void BeerActorDrinkBeerSpec::Define()
+{
+	Describe("DrinkBeer", [this]()
+	{
+		BeforeEach([this]()
+		{
+			WorldFixture = MakeUnique<FWorldFixture>();
 
-			    Actor = WorldFixture->GetWorld()->SpawnActor<ABeerActor>();
-			    Controller = WorldFixture->GetWorld()->SpawnActor<AMainPlayerController>();
-			    Character = WorldFixture->GetWorld()->SpawnActor<AMainCharacter>();
-			    PlayerState = NewObject<AMainPlayerState>();
+			Actor = WorldFixture->GetWorld()->SpawnActor<ABeerActor>();
+			Controller = WorldFixture->GetWorld()->SpawnActor<AMainPlayerController>();
+			Character = WorldFixture->GetWorld()->SpawnActor<AMainCharacter>();
+			PlayerState = NewObject<AMainPlayerState>();
 			
-			    WorldFixture->GetWorld()->AddController(Controller);
-			    Character->SetPlayerState(PlayerState);
-			    Controller->Possess(Character);
-		    });
+			WorldFixture->GetWorld()->AddController(Controller);
+			Character->SetPlayerState(PlayerState);
+			Controller->Possess(Character);
+		});
 
-		    It("should decrease the character temperature", [this]()
-		    {
-			    // Arrange
-			    Actor->DecreaseTemperatureBy = 0.2;
-			    PlayerState->Temperature = 1;
+		It("should decrease the character temperature", [this]()
+		{
+			// Arrange
+			Actor->DecreaseTemperatureBy = 0.2;
+			PlayerState->Temperature = 1;
 
-			    // Act
-			    Actor->DrinkBeer();
+			// Act
+			Actor->DrinkBeer();
 
-			    // Assert
-			    TestEqual("Temperature value decreased as expected", PlayerState->Temperature, 0.8f);
-		    });
-	    });
-    }
-    ```
+			// Assert
+			TestEqual("Temperature value decreased as expected", PlayerState->Temperature, 0.8f);
+		});
+	});
+}
+```
 
 You can see here the "DrinkBeer" Describe block groups tests ("It should") together. In this case, for this single method under the `BeerActor` class.
 
