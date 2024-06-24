@@ -24,4 +24,4 @@ It makes an assumption that you have:
 
 Please select the closest version of Unreal Engine you are using:
 
-- [5.2](./5.2/README.md)
+- [5.2](./5.2/readme.md)
