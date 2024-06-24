@@ -329,7 +329,7 @@ In this case, we are using `TestEqual` to check if the temperature has decreased
 
 For what it's worth, here's an explanation of the command.
 
-- `execcmds="Automation RunTests Loyly;Quit"`: This tells the Unreal Engine command-line editor to run automation tests that match the "Loyly" filter, and then quit the editor once the tests have been completed. It does not require an additional specification for EAutomationTestFlags::EditorContext because the test itself defines the context (and other flags) necessary for execution.
+- `execcmds="Automation RunTests {TestName};Quit"`: This tells the Unreal Engine command-line editor to run automation tests that match the "{TestName}" filter, and then quit the editor once the tests have been completed. It does not require an additional specification for EAutomationTestFlags::EditorContext because the test itself defines the context (and other flags) necessary for execution.
 - `stdout`: Forces the engine to output logs to the standard output, which can be very useful for CI systems to capture and analyze the output directly.
 - `unattended`: Runs the engine in a mode that does not require user interaction, suitable for automated tasks like continuous integration.
 - `NOSPLASH`: Disables the splash screen on startup, which is generally preferred for automated tasks to reduce overhead and potential graphical issues.
