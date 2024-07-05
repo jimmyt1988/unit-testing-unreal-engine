@@ -9,7 +9,7 @@ Follow this guide sequentially.
     *Other versions may work, but this is the version this guide is tested with.*
 
 1. Go to the Visual Studio Installer application. 
-    1. Install the following modules:
+1. Install the following modules:
         1. "IDE Support for Unreal Engine"
         1. "Unreal Engine Test Adapter"
 
@@ -23,8 +23,8 @@ Follow this guide sequentially.
 
 1. Add the following code to the file replacing {ProjectName} accordingly:
 
-	```cpp
-	#pragma once
+    ```cpp
+    #pragma once
 
     #include "CoreMinimal.h"
     #include "EngineUtils.h"
@@ -87,7 +87,7 @@ Follow this guide sequentially.
 
         TWeakObjectPtr<UWorld> WeakWorld;
     };
-	```
+    ```
 
 # 3. Create a folder for your Tests
 
