@@ -10,8 +10,8 @@ Follow this guide sequentially.
 
 1. Go to the Visual Studio Installer application. 
 1. Install the following modules:
-        1. "IDE Support for Unreal Engine"
-        1. "Unreal Engine Test Adapter"
+    1. "IDE Support for Unreal Engine"
+    1. "Unreal Engine Test Adapter"
 
 # 2. Create a folder for your "Fixtures"
 
