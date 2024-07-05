@@ -117,25 +117,25 @@ Let's imagine you have a class called `BeerActor` and a function called `DrinkBe
 UCLASS()
 class {ProjectName}_API ABeerActor : public AActor
 {
-	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	ABeerActor();
+    GENERATED_BODY()
+    
+public:    
+    // Sets default values for this actor's properties
+    ABeerActor();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+    // Called when the game starts or when spawned
+    virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+public:    
+    // Called every frame
+    virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly, Category = "Custom")
-	float DecreaseTemperatureBy;
+    UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly, Category = "Custom")
+    float DecreaseTemperatureBy;
 
-	UFUNCTION(BlueprintNativeEvent, Category = "Custom")
-	void DrinkBeer();
+    UFUNCTION(BlueprintNativeEvent, Category = "Custom")
+    void DrinkBeer();
 };
 ```
 
@@ -152,42 +152,39 @@ public:
 // Sets default values
 ABeerActor::ABeerActor()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+    PrimaryActorTick.bCanEverTick = true;
 }
 
 // Called when the game starts or when spawned
 void ABeerActor::BeginPlay()
 {
-	Super::BeginPlay();
-
+    Super::BeginPlay();
 }
 
 // Called every frame
 void ABeerActor::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-
+    Super::Tick(DeltaTime);
 }
 
 void ABeerActor::DrinkBeer_Implementation()
 {
-	UWorld* World = GetWorld();
+    UWorld* World = GetWorld();
 
-	if (World) {
-		AMainPlayerController* Controller = World->GetFirstPlayerController<AMainPlayerController>();
+    if (World) {
+        AMainPlayerController* Controller = World->GetFirstPlayerController<AMainPlayerController>();
 
-		if (Controller)
-		{
-			AMainCharacter* Character = Cast<AMainCharacter>(Controller->GetCharacter());
+        if (Controller)
+        {
+            AMainCharacter* Character = Cast<AMainCharacter>(Controller->GetCharacter());
 
-			if (Character)
-			{
-				Character->DecreaseTemperature(DecreaseTemperatureBy);
-			}
-		}
-	}
+            if (Character)
+            {
+                Character->DecreaseTemperature(DecreaseTemperatureBy);
+            }
+        }
+    }
 }
 ```
 
@@ -222,40 +219,40 @@ END_DEFINE_SPEC(BeerActorDrinkBeerSpec)
 
 void BeerActorDrinkBeerSpec::Define()
 {
-	Describe("DrinkBeer", [this]()
-	{
-		BeforeEach([this]()
-		{
-			// Make use of our fixture
-			WorldFixture = MakeUnique<FWorldFixture>();
+    Describe("DrinkBeer", [this]()
+    {
+        BeforeEach([this]()
+        {
+            // Make use of our fixture
+            WorldFixture = MakeUnique<FWorldFixture>();
 
-			// Spawn our beer actor
-			Actor = WorldFixture->GetWorld()->SpawnActor<ABeerActor>();
+            // Spawn our beer actor
+            Actor = WorldFixture->GetWorld()->SpawnActor<ABeerActor>();
 
-			// Spawn other stuff needed for this example. It might be different for you!
-			Controller = WorldFixture->GetWorld()->SpawnActor<AMainPlayerController>();
-			Character = WorldFixture->GetWorld()->SpawnActor<AMainCharacter>();
-			PlayerState = NewObject<AMainPlayerState>();
-			
-			// Set up the player state, Controller, character, etc.
-			WorldFixture->GetWorld()->AddController(Controller);
-			Character->SetPlayerState(PlayerState);
-			Controller->Possess(Character);
-		});
+            // Spawn other stuff needed for this example. It might be different for you!
+            Controller = WorldFixture->GetWorld()->SpawnActor<AMainPlayerController>();
+            Character = WorldFixture->GetWorld()->SpawnActor<AMainCharacter>();
+            PlayerState = NewObject<AMainPlayerState>();
+            
+            // Set up the player state, Controller, character, etc.
+            WorldFixture->GetWorld()->AddController(Controller);
+            Character->SetPlayerState(PlayerState);
+            Controller->Possess(Character);
+        });
 
-		It("should decrease the character temperature", [this]()
-		{
-			// Arrange
-			Actor->DecreaseTemperatureBy = 0.2;
-			PlayerState->Temperature = 1;
+        It("should decrease the character temperature", [this]()
+        {
+            // Arrange
+            Actor->DecreaseTemperatureBy = 0.2;
+            PlayerState->Temperature = 1;
 
-			// Act
-			Actor->DrinkBeer();
+            // Act
+            Actor->DrinkBeer();
 
-			// Assert
-			TestEqual("Temperature value decreased as expected", PlayerState->Temperature, 0.8f);
-		});
-	});
+            // Assert
+            TestEqual("Temperature value decreased as expected", PlayerState->Temperature, 0.8f);
+        });
+    });
 }
 ```
 
